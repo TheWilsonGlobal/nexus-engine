@@ -1,0 +1,6 @@
+include LICENSE README.md pyproject.toml
+recursive-include nexus_engine *.py *.json *.yaml *.txt
+prune tests
+prune docs
+prune data
+global-exclude *.pyc __pycache__ *.pyo .DS_Store *.log .env

@@ -1,13 +1,38 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "nexus-kernel"
 version = "0.2.0"
-description = "Enterprise agentic platform: ReAct agent, dual-process guardrail, hybrid graph-vector retrieval, tiered memory, sandbox."
-authors = [{ name = "Wilson Pham", email = "TheWilsonGlobal@users.noreply.github.com" }]
+description = "Enterprise agentic platform kernel: ReAct agent, dual-process guardrail, hybrid graph-vector retrieval, tiered memory, and sandbox."
+readme = "README.md"
+license = "Apache-2.0"
 requires-python = ">=3.10"
+authors = [
+  { name = "Wilson Pham", email = "TheWilsonGlobal@users.noreply.github.com" }
+]
+keywords = [
+  "agent",
+  "kernel",
+  "react",
+  "rag",
+  "guardrails",
+  "hybrid-retrieval",
+  "sandbox",
+  "langfuse",
+  "fastapi",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Operating System :: OS Independent",
+  "Framework :: FastAPI",
+]
 dependencies = [
   "fastapi>=0.110",
   "uvicorn>=0.29",
@@ -20,12 +45,26 @@ dependencies = [
 
 [project.optional-dependencies]
 pdf = ["pypdf>=4"]  # PDF ingestion (services/ingestion/text_hierarchy_parser.py)
-# tracer.py uses the Langfuse v2 client API (client.trace/.span); v3+ removed it. Stage 5 decides the final pin.
+# tracer.py uses the Langfuse v2 client API (client.trace/.span); v3+ removed it.
 observability = ["langfuse>=2.50,<3"]
-dev = ["pytest>=8", "pytest-asyncio>=0.23", "ruff>=0.6", "pip-audit>=2.7"]
+dev = [
+  "pytest>=8",
+  "pytest-asyncio>=0.23",
+  "ruff>=0.6",
+  "pip-audit>=2.7",
+  "build>=1.0",
+  "twine>=5.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/TheWilsonGlobal/nexus-engine"
+Repository = "https://github.com/TheWilsonGlobal/nexus-engine"
+Issues = "https://github.com/TheWilsonGlobal/nexus-engine/issues"
+Documentation = "https://github.com/TheWilsonGlobal/nexus-engine#readme"
 
 [tool.setuptools.packages.find]
 include = ["nexus_engine*"]
+exclude = ["tests*", "docs*", "data*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
