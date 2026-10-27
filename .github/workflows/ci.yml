@@ -16,7 +16,7 @@ concurrency:
 jobs:
   test:
     name: Lint + pytest (offline)
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     env:
       # Tests never call a live provider: mock embeddings/LLM, no keys, no Langfuse.
       EMBEDDING_PROVIDER: mock
@@ -44,7 +44,7 @@ jobs:
   # (continue-on-error): an advisory published tomorrow must not turn yesterday's PR red.
   pip-audit:
     name: pip-audit (advisory)
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4
