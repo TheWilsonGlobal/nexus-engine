@@ -1,0 +1,32 @@
+# Secrets and local config: never part of a build context
+.env
+.env.*
+!.env.example
+
+# Version control, caches, build output
+.git
+.gitignore
+**/__pycache__
+**/*.pyc
+.pytest_cache
+.ruff_cache
+.venv
+*.egg-info
+**/node_modules
+**/dist
+
+# Runtime state and anything that can hold user data
+data/db
+data/raw
+data/evals
+**/*.db
+**/*.db-wal
+**/*.db-shm
+reports
+
+# Not needed in images
+backend/tests
+backend/evals
+docs
+TODO.md
+README.md

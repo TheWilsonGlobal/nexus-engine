@@ -1,0 +1,113 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend (ruff + pytest, offline)
+    runs-on: ubuntu-latest
+    env:
+      # Tests never call a live provider: mock embeddings/LLM, no keys, no Langfuse.
+      EMBEDDING_PROVIDER: mock
+      LLM_PROVIDER: mock
+      GEMINI_LLM_API_KEY: ""
+      GEMINI_EMBEDDING_API_KEY: ""
+      GEMINI_API_KEY: ""
+      LANGFUSE_PUBLIC_KEY: ""
+      LANGFUSE_SECRET_KEY: ""
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: pip
+          cache-dependency-path: requirements.lock
+      - name: Install (hash-checked lockfile + dev tools)
+        run: |
+          python -m pip install --require-hashes -r requirements.lock
+          python -m pip install -e ".[dev]" --no-deps
+          python -m pip install "pytest>=8" "pytest-asyncio>=0.23" "ruff>=0.6"
+      - name: Lint
+        run: python -m ruff check backend
+      - name: Test
+        run: python -m pytest -p no:cacheprovider
+
+  frontend:
+    name: Frontend (lint + typecheck + build)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4 # version is read from package.json "packageManager"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: frontend/pnpm-lock.yaml
+      # frontend/pnpm-lock.yaml is the canonical SPA lockfile (no pnpm workspace at the root).
+      - run: pnpm --dir frontend install --frozen-lockfile
+      - run: pnpm --dir frontend run lint
+      - run: pnpm --dir frontend run typecheck
+      - run: pnpm --dir frontend run build
+
+  # The jobs below need network access to vulnerability databases. They are recorded in the run summary but do
+  # not block merges (continue-on-error): an advisory published tomorrow must not turn yesterday's PR red.
+  pip-audit:
+    name: pip-audit (advisory)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - run: python -m pip install pip-audit
+      - name: Audit the locked runtime dependencies
+        run: python -m pip_audit --require-hashes -r requirements.lock --progress-spinner off
+
+  pnpm-audit:
+    name: pnpm audit --prod (advisory)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: pnpm --dir frontend audit --prod
+
+  hadolint:
+    name: hadolint (advisory)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: backend/Dockerfile
+      - uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: docker/frontend.Dockerfile
+
+  trivy-config:
+    name: trivy config (advisory)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: config
+          scan-ref: .
+          severity: HIGH,CRITICAL
+          exit-code: "1"

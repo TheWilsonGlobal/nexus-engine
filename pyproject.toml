@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nexus-engine"
+version = "0.2.0"
+description = "Enterprise agentic platform: ReAct agent, dual-process guardrail, hybrid graph-vector retrieval, tiered memory, sandbox."
+authors = [{ name = "Wilson Pham", email = "TheWilsonGlobal@users.noreply.github.com" }]
+requires-python = ">=3.10"
+dependencies = [
+  "fastapi>=0.110",
+  "uvicorn>=0.29",
+  "pydantic>=2.5",
+  "numpy>=1.26",
+  "httpx>=0.27",  # runtime: LLM providers and the SSRF-guarded web client
+  "python-multipart>=0.0.9",  # FastAPI File/Form uploads (api/v1/ingestion.py); app fails to start without it
+  "python-dotenv>=1.0",  # core/config.py loads .env when present
+]
+
+[project.optional-dependencies]
+pdf = ["pypdf>=4"]  # PDF ingestion (services/ingestion/text_hierarchy_parser.py)
+# tracer.py uses the Langfuse v2 client API (client.trace/.span); v3+ removed it. Stage 5 decides the final pin.
+observability = ["langfuse>=2.50,<3"]
+dev = ["pytest>=8", "pytest-asyncio>=0.23", "ruff>=0.6", "pip-audit>=2.7"]
+
+[tool.setuptools.packages.find]
+include = ["nexus_engine*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
+markers = [
+    "live: calls the real Gemini API; opt-in via NEXUS_LIVE_TESTS=1 and GEMINI_API_KEY",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+extend-exclude = ["frontend", "node_modules", "data", "reports"]
+
+[tool.ruff.lint]
+# Linter only: layout/formatting is deliberately NOT enforced (no E501, no `ruff format` here).
+select = ["F", "E9", "B"]
+
+# B905 (zip without strict=) is ignored repo-wide: adding strict=True changes runtime behaviour (raises on length
+# mismatch), so it needs a per-site review rather than a mechanical fix.
+ignore = ["B905"]
+
+[tool.ruff.lint.per-file-ignores]
+# B008: FastAPI's `Depends(...)` in argument defaults is the framework's idiom.
+"backend/app/api/**" = ["B008"]
