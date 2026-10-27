@@ -2,7 +2,6 @@
 # Cross-platform: every recipe is a single command.
 # Override the interpreter with: make test PYTHON=python3
 -include .env
-export
 
 PYTHON ?= python
 HOST ?= $(if $(BACKEND_HOST),$(BACKEND_HOST),127.0.0.1)

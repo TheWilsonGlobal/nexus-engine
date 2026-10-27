@@ -1,7 +1,6 @@
 """Core SDK functional verification and contract tests."""
 from __future__ import annotations
 
-import pytest
 from nexus_engine import (
     AgentLoop,
     Guardrail,
@@ -72,3 +71,12 @@ def test_agent_loop_execution(container: Container):
     resp = container.agent.run("calculate 5 + 5", session_id="test-session")
     assert resp.blocked is False
     assert resp.session_id == "test-session"
+
+
+def test_health_probe_errors_do_not_leak_exception_text():
+    import urllib.error
+
+    from nexus_engine.api.v1.health import _safe_err
+
+    assert _safe_err(OSError("connect to http://10.0.0.5:9000/secret failed")) == "OSError"
+    assert _safe_err(urllib.error.HTTPError("http://x/y", 503, "boom", None, None)) == "HTTP 503"  # type: ignore[arg-type]

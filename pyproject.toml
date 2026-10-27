@@ -50,4 +50,4 @@ ignore = ["B905"]
 
 [tool.ruff.lint.per-file-ignores]
 # B008: FastAPI's `Depends(...)` in argument defaults is the framework's idiom.
-"backend/app/api/**" = ["B008"]
+"nexus_engine/api/**" = ["B008"]

@@ -16,6 +16,14 @@ from nexus_engine.core.container import Container
 router = APIRouter()
 
 
+def _safe_err(e: BaseException) -> str:
+    """Probe failures are reported by class (and HTTP status), never by raw exception text, which can carry
+    URLs, hostnames or resolver details."""
+    if isinstance(e, urllib.error.HTTPError):
+        return f"HTTP {e.code}"
+    return type(e).__name__
+
+
 def _probe_embedding_status(
     provider: str,
     url: str,
@@ -45,9 +53,9 @@ def _probe_embedding_status(
                     gemini_code = resp.status
             except urllib.error.HTTPError as e:
                 gemini_code = e.code
-                gemini_err = str(e)
+                gemini_err = _safe_err(e)
             except Exception as e:
-                gemini_err = str(e)
+                gemini_err = _safe_err(e)
 
         if gemini_ok:
             return {
@@ -86,7 +94,7 @@ def _probe_embedding_status(
         except urllib.error.HTTPError as e:
             return {"online": True, "code": e.code, "provider": "remote"}
         except Exception as e:
-            return {"online": False, "error": str(e), "provider": "remote"}
+            return {"online": False, "error": _safe_err(e), "provider": "remote"}
 
 
 def _probe_llm_status(
@@ -118,7 +126,7 @@ def _probe_llm_status(
                 "code": e.code,
                 "provider": "gemini",
                 "model": model,
-                "error": str(e),
+                "error": _safe_err(e),
                 "fallback_provider": "local_server",
                 "fallback_model": local_model,
             }
@@ -127,7 +135,7 @@ def _probe_llm_status(
                 "online": False,
                 "provider": "gemini",
                 "model": model,
-                "error": str(e),
+                "error": _safe_err(e),
                 "fallback_provider": "local_server",
                 "fallback_model": local_model,
             }
@@ -140,7 +148,7 @@ def _probe_llm_status(
             with urllib.request.urlopen(req, timeout=timeout_s) as resp:
                 return {"online": True, "code": resp.status, "provider": provider, "model": local_model}
         except Exception as e:
-            return {"online": False, "error": str(e), "provider": provider, "model": local_model}
+            return {"online": False, "error": _safe_err(e), "provider": provider, "model": local_model}
 
 
 PROBE_CACHE_TTL_S = 30.0
