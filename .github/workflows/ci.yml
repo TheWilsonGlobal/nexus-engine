@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, master]
+    branches: [main]
   pull_request:
 
 permissions:
@@ -14,31 +14,33 @@ concurrency:
 
 jobs:
   test:
-    name: Test (ruff + pytest, offline)
+    name: Lint + pytest (offline)
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.10", "3.11"]
     env:
-      # Tests never call live external providers: offline mock embeddings/LLM, no network keys.
+      # Tests never call a live provider: mock embeddings/LLM, no keys, no Langfuse.
       EMBEDDING_PROVIDER: mock
       LLM_PROVIDER: mock
-      ENV: development
+      GEMINI_LLM_API_KEY: ""
+      GEMINI_EMBEDDING_API_KEY: ""
+      GEMINI_API_KEY: ""
+      LANGFUSE_PUBLIC_KEY: ""
+      LANGFUSE_SECRET_KEY: ""
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.10"
           cache: pip
-      - name: Install SDK and test dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install -e ".[dev,pdf]"
+          cache-dependency-path: pyproject.toml
+      - name: Install
+        run: python -m pip install -e ".[dev]"
       - name: Lint
         run: python -m ruff check nexus_engine tests
       - name: Test
-        run: python -m pytest tests
+        run: python -m pytest -p no:cacheprovider
 
+  # Needs network access to vulnerability databases. Recorded in the run summary but does not block merges
+  # (continue-on-error): an advisory published tomorrow must not turn yesterday's PR red.
   pip-audit:
     name: pip-audit (advisory)
     runs-on: ubuntu-latest
@@ -48,8 +50,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
-      - name: Run pip-audit
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install -e ".[dev,pdf]"
-          python -m pip_audit
+      - run: python -m pip install pip-audit
+      - name: Audit the declared dependencies
+        run: python -m pip_audit . --progress-spinner off

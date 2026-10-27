@@ -93,6 +93,8 @@ The [`TokenBudgetManager`](../nexus_engine/services/agent/budget.py) provides th
 
 ## 5. Langfuse Integration & Deployment Options
 
+> **Version pin (decision, phase 10):** the tracer uses the Langfuse **v2** client API (`client.trace` / `.span`). The package is pinned `langfuse>=2.50,<3` (`observability` extra). With Langfuse v3 or later installed, the tracer disables itself and logs why, rather than failing silently mid-run. Porting to the v3+ OpenTelemetry API is deferred; trace delivery has not been verified against a live Langfuse server.
+
 Nexus Engine uses **Langfuse** as its core observability platform because it is **100% framework-agnostic** (integrating directly into custom ReAct loops without LangChain dependencies) and offers dual deployment models:
 
 ### Deployment Models
