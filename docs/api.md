@@ -156,7 +156,7 @@ Interactive OpenAPI documentation is served at `/docs` when the API server is ru
 
 | Method | Path | Description | Request / Response |
 | :--- | :--- | :--- | :--- |
-| `POST` | `/api/v1/retrieval/search` | Direct hybrid retrieval (Vector ANN + Graph Traversal) | **Body:** `{"query": str, "top_k": int(1..20, default=5)}`<br>**Response:** `{"results": [{"chunk_id": str, "text": str, "path": str, "score": float, "sources": ["dense", "graph"]}]}` |
+| `POST` | `/api/v1/retrieval/search` | Direct hybrid retrieval (Vector ANN + Graph Traversal) | **Body:** `{"query": str, "top_k": int(1..20, default=5)}`<br>**Response:** `{"results": [{"chunk_id": str, "text": str, "path": str, "score": float, "sources": ["dense", "graph", "parent"]}]}` |
 | `GET` | `/api/v1/retrieval/graph` | Knowledge graph topology for visualization | Returns `{"nodes": [{"id": str, "label": str, "type": str}], "edges": [{"source": str, "target": str, "relation": str}]}` |
 | `GET` | `/api/v1/retrieval/storage-stats` | Storage diagnostics | Chunk counts, embedding dimensions, graph node/edge counts. |
 | `GET` | `/api/v1/retrieval/chunks` | Inspect raw indexed chunks | Paginated chunk listings. |

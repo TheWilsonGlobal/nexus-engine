@@ -22,6 +22,10 @@ from nexus_engine.services.retrieval.vector_store import VectorStore
 log = logging.getLogger(__name__)
 
 RRF_K = 60
+# A matching clause also makes its parent (the article it belongs to) a candidate. The parent is scored at this
+# fraction of its best matching child's fused score, or at its own score if that is higher, so it follows its
+# child in the ranking and is not pulled above it by expansion alone. 0 disables parent expansion.
+PARENT_WEIGHT = 0.95
 _ARTICLE_TITLE = re.compile(r"^(?:article|điều)\s+(\d+)\b", re.I)
 
 
@@ -278,6 +282,7 @@ class HybridRetriever:
         with self._state_lock:
             graph = [cid for cid, _ in self.graph.rank_chunks(query, pool)]
             fused = rrf_fuse({"dense": dense, "graph": graph})
+            self._expand_parents(fused)
             ranked = sorted(fused.items(), key=lambda kv: (-kv[1][0], kv[0]))[:top_k]
 
             hits: list[SearchHit] = []
@@ -289,6 +294,25 @@ class HybridRetriever:
                 text = self._texts.get(cid, getattr(c, "text", ""))
                 hits.append(SearchHit(cid, text, path, round(score, 6), srcs, reason))
         return hits, reason
+
+    def _expand_parents(self, fused: dict[str, tuple[float, list[str]]]) -> None:
+        """Add each matched chunk's parent to ``fused`` (in place); caller holds ``_state_lock``.
+
+        Only direct parents of chunks that were themselves retrieved, and only parents present in the index.
+        """
+        if PARENT_WEIGHT <= 0:
+            return
+        best_child: dict[str, float] = {}
+        for cid, (score, _srcs) in fused.items():
+            c = self._chunks.get(cid)
+            pid = getattr(c, "parent_id", None) if c is not None else None
+            if pid and pid != cid and pid in self._chunks:
+                best_child[pid] = max(best_child.get(pid, 0.0), score)
+        for pid, child_score in best_child.items():
+            s, srcs = fused.get(pid, (0.0, []))
+            lifted = PARENT_WEIGHT * child_score
+            if lifted > s:
+                fused[pid] = (lifted, srcs + ["parent"])
 
     def graph_snapshot(self) -> dict:
         with self._state_lock:

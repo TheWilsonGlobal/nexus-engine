@@ -16,7 +16,7 @@ class SearchResult(BaseModel):
     text: str
     path: str
     score: float
-    sources: list[Literal["dense", "graph"]]
+    sources: list[Literal["dense", "graph", "parent"]]
 
 
 class SearchResponse(BaseModel):

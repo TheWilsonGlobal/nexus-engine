@@ -80,3 +80,23 @@ def test_health_probe_errors_do_not_leak_exception_text():
 
     assert _safe_err(OSError("connect to http://10.0.0.5:9000/secret failed")) == "OSError"
     assert _safe_err(urllib.error.HTTPError("http://x/y", 503, "boom", None, None)) == "HTTP 503"  # type: ignore[arg-type]
+
+
+def test_search_surfaces_parent_article_after_matching_clause(container):
+    r = container.retriever
+    hits = r.search("Article 1 definition of Personal Data and Data Subject", top_k=5)
+    ids = [h.chunk_id for h in hits]
+    child = next(i for i in ids if r._chunks[i].parent_id in r._chunks)
+    parent = r._chunks[child].parent_id
+    assert parent in ids and ids.index(child) < ids.index(parent)  # parent follows, never precedes, its child
+
+
+def test_parent_expansion_can_be_disabled(container, monkeypatch):
+    from nexus_engine.services.retrieval import hybrid_retriever as hr
+
+    q = "Article 1 definition of Personal Data and Data Subject"
+    monkeypatch.setattr(hr, "PARENT_WEIGHT", 0.0)
+    off = [h.chunk_id for h in container.retriever.search(q, top_k=5)]
+    monkeypatch.setattr(hr, "PARENT_WEIGHT", 0.95)
+    on = [h.chunk_id for h in container.retriever.search(q, top_k=5)]
+    assert off != on
