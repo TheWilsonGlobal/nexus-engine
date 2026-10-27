@@ -6,7 +6,7 @@ VERSION = "0.3.0"
 
 # Storage & Database Paths
 from pathlib import Path
-_REPO_ROOT = Path(__file__).resolve().parents[3]
+_REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_AUDIT_DB_PATH = str(_REPO_ROOT / "data" / "db" / "audit.db")
 DEFAULT_DATABASE_PATH = str(_REPO_ROOT / "data" / "db" / "nexus.db")
 

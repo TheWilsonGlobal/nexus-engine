@@ -14,7 +14,7 @@ try:
 except ImportError:
     pass
 
-_REPO_ROOT = Path(__file__).resolve().parents[3]
+_REPO_ROOT = Path(__file__).resolve().parents[2]
 
 from nexus_engine.core.constants import (
     DEFAULT_AUDIT_DB_PATH,

@@ -11,7 +11,7 @@ from typing import Any
 log = logging.getLogger(__name__)
 
 # Resolution paths for project data:
-_REPO_ROOT = Path(__file__).resolve().parents[3]
+_REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
 def get_data_dir() -> Path:

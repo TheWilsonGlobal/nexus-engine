@@ -28,6 +28,13 @@ env/
 venv/
 ENV/
 
+# Database & Runtime Data
+data/
+*.db
+*.sqlite
+*.sqlite3
+reports/
+
 # Pytest / Coverage
 .pytest_cache/
 .coverage
