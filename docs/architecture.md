@@ -137,8 +137,8 @@ Nexus Engine is packaged as a standalone, domain-agnostic enterprise library (`n
 
 ```
 +===================================================================================================+
-|                                    NEXUS-ENGINE (CORE PLATFORM)                                   |
-|                          Installable Python Package: `nexus-engine` (SDK)                         |
+|                                    NEXUS-KERNEL (CORE PLATFORM)                                   |
+|                          Installable Python Package: `nexus-kernel` (SDK)                         |
 +===================================================================================================+
   ├── core/            Container, Dependency Injection, Config, Embeddings, SQLite Engine
   ├── schemas/         Agent, Ingestion, Memory, Retrieval, and Telemetry Pydantic models
@@ -154,7 +154,7 @@ Nexus Engine is packaged as a standalone, domain-agnostic enterprise library (`n
   │   └── security/    ASGI Security Middleware, Rate Limiter, PBKDF2 Session Auth & RBAC
   └── api/             FastAPI REST & SSE Endpoints (`/api/v1/*`), OpenAPI Schema Factory
                                                     ▲
-                                                    │  (pip install nexus-engine / imported as SDK)
+                                                    │  (pip install nexus-kernel / imported as SDK)
                                                     │
 +===================================================================================================+
 |                                BANK-CREDIT-GUARD (DOMAIN SOLUTION)                                |
@@ -177,6 +177,6 @@ To build a new domain copilot (e.g. `medical-diagnostics-copilot` or `bank-credi
 2. **Provide Domain Schema & Data**: Ingest domain documents through `nexus_engine.services.ingestion.IngestionPipeline`.
 3. **Configure Guardrail Rules**: Define domain safety rules (e.g., PII masking, statutory prohibitions).
 4. **Plug Domain Prompts**: Configure system prompts with domain directives and custom tool extensions.
-Over 85% of agentic plumbing is reused directly from `nexus-engine`.
+Over 85% of agentic plumbing is reused directly from `nexus-kernel`.
 
 *For a detailed implementation guide, see the [Domain Adaptation Blueprint](domain_adaptation_blueprint.md).*

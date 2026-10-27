@@ -1,4 +1,4 @@
-"""Unified embedded storage subsystem for Nexus-Engine.
+"""Unified embedded storage subsystem for Nexus-Kernel.
 
 Stores Chunks, Vector Embeddings, Knowledge Graph Nodes & Edges, and Semantic Cache
 inside an ACID-compliant embedded SQLite database (data/db/nexus.db) with Recursive CTE graph traversal.

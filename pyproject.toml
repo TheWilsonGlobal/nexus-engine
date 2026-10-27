@@ -3,7 +3,7 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "nexus-engine"
+name = "nexus-kernel"
 version = "0.2.0"
 description = "Enterprise agentic platform: ReAct agent, dual-process guardrail, hybrid graph-vector retrieval, tiered memory, sandbox."
 authors = [{ name = "Wilson Pham", email = "TheWilsonGlobal@users.noreply.github.com" }]

@@ -32,12 +32,12 @@ Nexus Engine is a decoupled, domain-agnostic foundation designed for building hi
 ## 2. Installation
 
 ```bash
-pip install nexus-engine
+pip install nexus-kernel
 ```
 
 For PDF parsing or enterprise observability:
 ```bash
-pip install "nexus-engine[pdf,observability]"
+pip install "nexus-kernel[pdf,observability]"
 ```
 
 ---
@@ -121,8 +121,8 @@ Detailed guides and architectural specifications are available in the [`docs/`](
 
 ```bash
 # Clone and install in editable mode
-git clone https://github.com/your-org/nexus-engine.git
-cd nexus-engine
+git clone https://github.com/your-org/nexus-kernel.git
+cd nexus-kernel
 pip install -e ".[dev]"
 
 # Run SDK contract test suite

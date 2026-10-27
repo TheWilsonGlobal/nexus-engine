@@ -1,7 +1,7 @@
-# Domain Adaptation Blueprint: Rapid Solution Development with Nexus Engine SDK
+# Domain Adaptation Blueprint: Rapid Solution Development with Nexus Kernel SDK
 
 > **Architecture Specification & Field Guide**  
-> **Platform Engine:** [`nexus-engine` (v0.2.0)](../README.md)  
+> **Platform Engine:** [`nexus-kernel` (v0.2.0)](../README.md)  
 > **Target Audiences:** Enterprise AI Architects, Lead Engineers, Technical Evaluation Panels  
 > **Target Delivery SLA:** < 48 Hours from domain requirements to functional production MVP
 
@@ -11,13 +11,13 @@
 
 Enterprise agent projects often suffer from monolithic stagnation: whenever a new domain arrives (e.g., Banking, Healthcare, Pharmaceutical, Supply Chain), development teams rewrite agent state loops, guardrail regex engines, hybrid retrieval stores, token compactors, and audit loggers from scratch.
 
-`nexus-engine` solves this with a **Strict Inversion of Control & Extension Model**:
+`nexus-kernel` solves this with a **Strict Inversion of Control & Extension Model**:
 - **85%+ Reusable Core Platform**: Orchestration state machine, dual-process safety guardrail (Noisy-OR regex + LLM verifier), SQLite vector-graph CTE retriever, token budget manager, SHA-256 tamper-evident ledger, and OS sandbox executor.
 - **<15% Configurable Domain Specialization**: Domain knowledge parsers, domain safety/compliance rules (`rules.json`), domain knowledge graph schemas, and domain persona prompts.
 
 ```
                               +---------------------------------------+
-                              |        nexus-engine (Core SDK)        |
+                              |        nexus-kernel (Core SDK)        |
                               |   - ReAct Orchestrator & State Graph  |
                               |   - Dual-Process Guardrail Framework  |
                               |   - Hybrid Vector-Graph CTE Engine    |
@@ -26,7 +26,7 @@ Enterprise agent projects often suffer from monolithic stagnation: whenever a ne
                               |   - Quota-Bounded OS Sandbox Executor |
                               +-------------------+-------------------+
                                                   |
-                                                  | [pip install nexus-engine]
+                                                  | [pip install nexus-kernel]
                          +------------------------+------------------------+
                          |                                                 |
                          v                                                 v
@@ -47,14 +47,14 @@ Enterprise agent projects often suffer from monolithic stagnation: whenever a ne
 Building any new enterprise solution requires only 4 declarative steps:
 
 ### Step 1: Initialize Project & Dependency Declaration (0.5 hour)
-Declare `nexus-engine` as your core platform engine in `pyproject.toml`:
+Declare `nexus-kernel` as your core platform engine in `pyproject.toml`:
 
 ```toml
 [project]
 name = "clinical-guard"
 version = "0.1.0"
 dependencies = [
-    "nexus-engine>=0.2.0",
+    "nexus-kernel>=0.2.0",
 ]
 ```
 
@@ -141,7 +141,7 @@ class ClinicalContainer:
 
 ---
 
-## 3. Comparison Matrix: Three Enterprise Verticals on `nexus-engine`
+## 3. Comparison Matrix: Three Enterprise Verticals on `nexus-kernel`
 
 | Domain Dimension | Banking Solution (`bank-credit-guard`) | Healthcare Solution (`clinical-guard`) | Chemical / Industrial (`hazmat-guard`) |
 | :--- | :--- | :--- | :--- |
@@ -156,7 +156,7 @@ class ClinicalContainer:
 ## 4. Key Architectural Takeaways for Stakeholders & Reviewers
 
 1. **Zero Reinvention**:
-   Core reliability engineering (SSRF defense, sandboxed code execution, memory pruning, SHA-256 hash chaining) is already hardened and tested in `nexus-engine`.
+   Core reliability engineering (SSRF defense, sandboxed code execution, memory pruning, SHA-256 hash chaining) is already hardened and tested in `nexus-kernel`.
 2. **Deterministic & Inspectable**:
    Every domain extension inherits the same tamper-evident audit ledger and quantitative evaluation harness.
 3. **True Agility for Enterprise AI Platforms**:

@@ -47,7 +47,7 @@ def create_app(settings: Optional[Settings] = None) -> FastAPI:
     settings = settings or Settings.from_env()
     setup_logging(settings.log_level)
     run_startup_checks(settings)  # refuses unsafe auth config before any service is built
-    app = FastAPI(title="nexus-engine", version=settings.version)
+    app = FastAPI(title="nexus-kernel", version=settings.version)
     app.state.container = build_container(settings)
     app.add_middleware(
         SecurityDefenseMiddleware,

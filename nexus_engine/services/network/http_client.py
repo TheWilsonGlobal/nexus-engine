@@ -84,7 +84,7 @@ class SafeHTTPClient:
         stale = self._client_loop is not None and self._client_loop is not loop
         if self._client is None or self._client.is_closed or stale:
             # An AsyncClient's pooled connections belong to one event loop; never reuse it on another.
-            headers = {"User-Agent": "NexusEngine-Agent/0.3 (+https://github.com/nexus-engine)"}
+            headers = {"User-Agent": "NexusKernel-Agent/0.3 (+https://github.com/nexus-kernel)"}
             # Redirects are followed by hand in fetch(): httpx would SEND each hop before we could vet it.
             # trust_env=False: ignore HTTP(S)_PROXY / NO_PROXY / netrc, which would route around the pinned-IP check.
             self._client = httpx.AsyncClient(

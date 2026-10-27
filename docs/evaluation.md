@@ -1,6 +1,6 @@
 # Evaluation Suite (Eval-Suite) Specification & Guide
 
-> **Target Platform:** `nexus-engine` SDK  
+> **Target Platform:** `nexus-kernel` SDK  
 > **Architecture:** Decoupled Evaluation Metrics & Verification Protocol  
 > **Benchmark Harness & Datasets:** Hosted in [`nexus-engine-sample`](https://github.com/your-org/nexus-engine-sample)  
 > **Specification Reference:** Enterprise Autonomous Agent Assurance Protocol  
@@ -147,7 +147,7 @@ Inside `nexus-engine-sample`, run the automated regression test suite:
 pytest backend/tests/test_eval_suite.py -v
 ```
 
-This verifies the following test assertions against the installed `nexus-engine` SDK:
+This verifies the following test assertions against the installed `nexus-kernel` SDK:
 - `test_eval_hybrid_retrieval_mrr`: Asserts MRR@3 $\ge 0.88$ and graph completeness $\ge 0.90$.
 - `test_eval_ssrf_egress_security_benchmark`: Asserts 100% zero-tolerance block rate on egress attack probes.
 - `test_eval_sandbox_isolation_benchmark`: Asserts 100% quarantine of hostile code snippets.

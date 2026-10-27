@@ -1,4 +1,4 @@
-"""System-wide default constants and architectural configurations for Nexus-Engine."""
+"""System-wide default constants and architectural configurations for Nexus-Kernel."""
 from __future__ import annotations
 
 # Application Version
