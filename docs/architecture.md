@@ -118,13 +118,13 @@ flowchart TD
 
 ### 10. Automated Evaluation Architecture & Benchmark Decoupling
 - **Evaluation Design**: The platform implements formal evaluation metrics for Tool Selection Accuracy, Argument Schema Validity, MRR@3, Graph Completeness, and SSRF/Sandbox attack containment.
-- **Decoupled Benchmark Rig (`nexus-engine-sample`)**: To ensure production safety and keep proprietary penetration vectors, golden red-teaming datasets, and corporate evaluation cases confidential, the full 125 benchmark vectors and CLI evaluation runner reside in the [Nexus Engine Sample](https://github.com/your-org/nexus-engine-sample) companion repository (`backend/evals/`).
+- **Decoupled Benchmark Rig (`nexus-sample`)**: To ensure production safety and keep proprietary penetration vectors, golden red-teaming datasets, and corporate evaluation cases confidential, the full 125 benchmark vectors and CLI evaluation runner reside in the [Nexus Sample](https://github.com/TheWilsonGlobal/nexus-sample) companion repository (`backend/evals/`).
 - *Detailed metrics and evaluation methodology available in [evaluation.md](evaluation.md).*
 
 ### 11. Decoupled UI & Reference Application
 - While the core SDK is fully headless (exporting both Python APIs and a FastAPI application via `nexus_engine.main:create_app`), interactive visual exploration is supported through:
-  - **Reference UI (`nexus-engine-sample/frontend`)**: React 19, TypeScript, and Vite workbench featuring Knowledge Explorer, Agent Scratchpad (SSE real-time streaming), Execution Trace Audit Ledger, and Telemetry HUD.
-  - **Vertical Solutions**: Custom user experiences such as [Bank Credit Guard](https://github.com/your-org/bank-credit-guard) credit underwriting workbench.
+  - **Reference UI (`nexus-sample/frontend`)**: React 19, TypeScript, and Vite workbench featuring Knowledge Explorer, Agent Scratchpad (SSE real-time streaming), Execution Trace Audit Ledger, and Telemetry HUD.
+  - **Vertical Solutions**: Custom user experiences and domain copilots built on top of the headless engine.
 
 
 ---
@@ -157,22 +157,22 @@ Nexus Engine is packaged as a standalone, domain-agnostic enterprise library (`n
                                                     │  (pip install nexus-kernel / imported as SDK)
                                                     │
 +===================================================================================================+
-|                                BANK-CREDIT-GUARD (DOMAIN SOLUTION)                                |
-|                        Institutional Banking AI Copilot (ApexBank / GPBank)                       |
+|                              DOMAIN VERTICAL COPILOT (APPLICATION LAYER)                          |
+|                     Domain-Specific Extension (e.g. Legal, Medical, Industrial)                   |
 +===================================================================================================+
   ├── backend/
-  │   ├── config/      Banking Environment Settings, Database Paths, Port 8765 / 5199
-  │   ├── container.py `BankingContainer(nexus_engine.Container)` (Overrides with Banking Providers)
-  │   ├── ingestion/   Legal JSON Parser (Circular 39/06), Underwriting Markdown Parser (QC-TD-CN-2024)
-  │   ├── guardrail/   Decree 13 PII Rules, CCCD Regex, Banking Privilege Jailbreak Definitions
-  │   ├── agent/       Banking System Prompts, Structured Compliance Memo Provider (Maker-Checker)
-  │   ├── evals/       50 Golden QA Cases, 30 Red-Teaming Attacks, 40 Legal Retrieval Benchmarks
-  │   └── tests/       217 Banking Compliance & Regression Test Suite
-  └── frontend/        React 19 FinTech Workbench (Compliance Scratchpad, Policy Graph, Telemetry HUD)
+  │   ├── config/      Domain Environment Settings, Database Paths, Port Configs
+  │   ├── container.py Specialized Container (Inherits/Overrides with Domain Services)
+  │   ├── ingestion/   Custom Domain Parsers, Schema Builders, Entity Triple Extractors
+  │   ├── guardrail/   Domain-Specific PII Rules, Statutory Prohibitions, Regex Rules
+  │   ├── agent/       Domain System Prompts, Structured Memo / Report Providers
+  │   ├── evals/       Golden Domain QA Vectors, Red-Teaming Probes, Retrieval Benchmarks
+  │   └── tests/       Domain Compliance & Integration Test Suite
+  └── frontend/        Domain-Tailored Workbench (Custom Scratchpad, Knowledge Graph, HUD)
 ```
 
 ### Implementing a New Domain in < 48 Hours
-To build a new domain copilot (e.g. `medical-diagnostics-copilot` or `bank-credit-guard`), developers:
+To build a new domain copilot (e.g. `medical-diagnostics-copilot` or `contract-compliance-agent`), developers:
 1. **Import `nexus_engine`**: Use the core ReAct loop, Dual-Process Guardrail, Hybrid RRF vector-graph retrieval, and SHA-256 audit ledger.
 2. **Provide Domain Schema & Data**: Ingest domain documents through `nexus_engine.services.ingestion.IngestionPipeline`.
 3. **Configure Guardrail Rules**: Define domain safety rules (e.g., PII masking, statutory prohibitions).

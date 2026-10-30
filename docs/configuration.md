@@ -168,4 +168,4 @@ pytest tests
 
 ### 4. Reference Application & Full Benchmark Harness
 For running the full-stack React 19 workbench UI, the full 530+ integration test suite, or the 125-vector automated evaluation benchmark rig (`python -m backend.evals.runner`), refer to the companion repository:
-- **Repository**: [nexus-engine-sample](https://github.com/your-org/nexus-engine-sample)
+- **Repository**: [nexus-sample](https://github.com/TheWilsonGlobal/nexus-sample)

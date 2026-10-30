@@ -94,8 +94,8 @@ if result.status == "ok":
 
 Nexus Engine SDK powers domain-specific enterprise solutions and reference applications:
 
-* **Reference Implementation**: [Nexus Engine Sample](https://github.com/your-org/nexus-engine-sample) – Full-stack application harness featuring a React 19 workbench UI, complete 530+ integration test suite, and automated 125-vector evaluation benchmarks.
-* **Banking & Finance**: [Bank Credit Guard](https://github.com/your-org/bank-credit-guard) – Regulatory credit underwriting copilot adhering to SBV Circular 39/2016, Circular 06/2023, Decree 13/2023/ND-CP, and ApexBank underwriting policies.
+* **Reference Implementation**: [Nexus Sample](https://github.com/TheWilsonGlobal/nexus-sample) – Full-stack application harness featuring a React 19 workbench UI, complete 530+ integration test suite, and automated 125-vector evaluation benchmarks.
+* **Legal & Contract Compliance**: Contract analysis, clause verification, and statutory risk scoring copilot.
 * **Medical / Healthcare**: Clinical decision support with HIPAA/GDPR guardrails and medical terminology graphs.
 * **Chemical / Industry**: MSDS safety verification and environmental regulatory compliance.
 
@@ -113,7 +113,7 @@ Detailed guides and architectural specifications are available in the [`docs/`](
 * [Configuration Guide](docs/configuration.md) – Runtime settings, environment variables, and SDK initialization.
 * [Compliance & Security Matrix](docs/compliance_and_security_matrix.md) – OWASP LLM/API security mapping and risk scoring.
 * [Domain Adaptation Blueprint](docs/domain_adaptation_blueprint.md) – Step-by-step methodology to build enterprise vertical solutions in <48 hours.
-* [Evaluation Benchmarking](docs/evaluation.md) – Benchmark metrics specification (harness hosted in `nexus-engine-sample`).
+* [Evaluation Benchmarking](docs/evaluation.md) – Benchmark metrics specification (harness hosted in `nexus-sample`).
 
 ---
 
@@ -121,7 +121,7 @@ Detailed guides and architectural specifications are available in the [`docs/`](
 
 ```bash
 # Clone and install in editable mode
-git clone https://github.com/your-org/nexus-kernel.git
+git clone https://github.com/TheWilsonGlobal/nexus-engine.git
 cd nexus-kernel
 pip install -e ".[dev]"
 

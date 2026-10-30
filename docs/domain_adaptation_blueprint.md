@@ -31,12 +31,12 @@ Enterprise agent projects often suffer from monolithic stagnation: whenever a ne
                          |                                                 |
                          v                                                 v
         +---------------------------------+               +---------------------------------+
-        |   bank-credit-guard (Banking)   |               |    clinical-guard (Healthcare)  |
-        |   - SBV Circular 39/06 Parsers  |               |    - Clinical Protocol Parsers  |
-        |   - ApexBank QC-TD-CN-2024 Graph|               |    - ICD-10 / Drug Interax Graph|
-        |   - Decree 13 PII & CCCD Filter |               |    - HIPAA PII / Dosage Filter  |
-        |   - Maker-Checker Directives    |               |    - Attending Physician Prompts|
-        |   - 120 Golden Banking Evals    |               |    - 100 Clinical Trial Evals   |
+        | contract-guard (Legal/Contracts)|               |    clinical-guard (Healthcare)  |
+        | - Commercial Contract Parsers   |               |    - Clinical Protocol Parsers  |
+        | - Termination & Liability Graph |               |    - ICD-10 / Drug Interax Graph|
+        | - Confidentiality & PII Filter  |               |    - HIPAA PII / Dosage Filter  |
+        | - Counsel Review Directives     |               |    - Attending Physician Prompts|
+        | - 120 Contract QA Evals         |               |    - 100 Clinical Trial Evals   |
         +---------------------------------+               +---------------------------------+
 ```
 
@@ -143,12 +143,12 @@ class ClinicalContainer:
 
 ## 3. Comparison Matrix: Three Enterprise Verticals on `nexus-kernel`
 
-| Domain Dimension | Banking Solution (`bank-credit-guard`) | Healthcare Solution (`clinical-guard`) | Chemical / Industrial (`hazmat-guard`) |
+| Domain Dimension | Legal Solution (`contract-guard`) | Healthcare Solution (`clinical-guard`) | Chemical / Industrial (`hazmat-guard`) |
 | :--- | :--- | :--- | :--- |
-| **Statutory Knowledge** | SBV Circulars 39 & 06, ApexBank Policy | FDA Protocols, Clinical Guidelines, ICD-10 | OSHA Standards, REACH, GHS MSDS Sheets |
-| **Graph Edge Semantics**| `AMENDS`, `SUPERSEDES`, `STRICTLY_PROHIBITS` | `CONTRAINDICATED_WITH`, `SYNERGISTIC_RISK` | `REACTS_VIOLENTLY_WITH`, `STORAGE_INCOMPATIBLE` |
-| **Safety Guardrail** | Decree 13/2023/ND-CP (CCCD, Bank Accounts) | HIPAA / PHI (MRN, Diagnostic records) | Controlled Precursor / Bio-hazard exfiltration |
-| **Output Mandate** | Maker-Checker Credit Memorandum | Attending Physician Review Order | Hazmat Safety Handling Ticket |
+| **Statutory Knowledge** | Commercial Contract Standards, Corporate Procurement SOP | FDA Protocols, Clinical Guidelines, ICD-10 | OSHA Standards, REACH, GHS MSDS Sheets |
+| **Graph Edge Semantics**| `TERMINATES`, `SUPERSEDES`, `INDEMNIFIES` | `CONTRAINDICATED_WITH`, `SYNERGISTIC_RISK` | `REACTS_VIOLENTLY_WITH`, `STORAGE_INCOMPATIBLE` |
+| **Safety Guardrail** | Corporate Confidentiality / Trade Secret Protection | HIPAA / PHI (MRN, Diagnostic records) | Controlled Precursor / Bio-hazard exfiltration |
+| **Output Mandate** | Legal Counsel Review Memorandum | Attending Physician Review Order | Hazmat Safety Handling Ticket |
 | **Development Time** | Reference implementation | **< 36 Hours** | **< 48 Hours** |
 
 ---

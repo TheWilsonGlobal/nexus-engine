@@ -2,7 +2,7 @@
 
 > **Target Platform:** `nexus-kernel` SDK  
 > **Architecture:** Decoupled Evaluation Metrics & Verification Protocol  
-> **Benchmark Harness & Datasets:** Hosted in [`nexus-engine-sample`](https://github.com/your-org/nexus-engine-sample)  
+> **Benchmark Harness & Datasets:** Hosted in [`nexus-sample`](https://github.com/TheWilsonGlobal/nexus-sample)  
 > **Specification Reference:** Enterprise Autonomous Agent Assurance Protocol  
 
 ---
@@ -12,7 +12,7 @@
 Nexus Engine features a comprehensive, regression-proof **Evaluation Suite (Eval-Suite)** specification designed to quantify agent reasoning quality, tool execution fidelity, hybrid retrieval precision, and security defense boundaries across 125 benchmark vectors.
 
 > [!NOTE]
-> **Repository Decoupling Notice**: To prevent public disclosure of proprietary red-teaming vectors, penetration payloads, and internal corporate test cases, the benchmark datasets (`agent_trajectories.json`, `ssrf_security_probes.json`, etc.) and the CLI runner scripts reside in the reference companion repository: [Nexus Engine Sample](https://github.com/your-org/nexus-engine-sample). Downstream solutions like [Bank Credit Guard](https://github.com/your-org/bank-credit-guard) implement domain-specific variants of this evaluation architecture.
+> **Repository Decoupling Notice**: To prevent public disclosure of proprietary red-teaming vectors, penetration payloads, and internal corporate test cases, the benchmark datasets (`agent_trajectories.json`, `ssrf_security_probes.json`, etc.) and the CLI runner scripts reside in the reference companion repository: [Nexus Sample](https://github.com/TheWilsonGlobal/nexus-sample). Downstream vertical domain solutions implement domain-specific variants of this evaluation architecture.
 
 The suite ensures zero regression across four critical dimensions:
 1. **Agent Tool-Calling & Trajectory Benchmark (40 scenarios)**: Quantifies tool selection precision/recall, strict Pydantic argument schema validity, trajectory step budget adherence ($\le 4$ steps), and preliminary streaming token preamble reset handling.
@@ -41,7 +41,7 @@ The suite ensures zero regression across four critical dimensions:
 
 ```mermaid
 flowchart TD
-    BenchData["Benchmark Datasets (nexus-engine-sample/data/evals/)"] --> Runner["Evaluation CLI Runner (nexus-engine-sample)"]
+    BenchData["Benchmark Datasets (nexus-sample/data/evals/)"] --> Runner["Evaluation CLI Runner (nexus-sample)"]
     
     subgraph TestVectors ["125 Benchmark Vectors"]
         TrajData["40 Agent Trajectories (agent_trajectories.json)"]
@@ -115,10 +115,10 @@ Consists of **30 specialized penetration vectors**:
 
 ## 5. Executing Benchmarks in the Sample Rig
 
-To execute the 125 benchmark vectors, switch to the [`nexus-engine-sample`](https://github.com/your-org/nexus-engine-sample) repository:
+To execute the 125 benchmark vectors, switch to the [`nexus-sample`](https://github.com/TheWilsonGlobal/nexus-sample) repository:
 
 ### 5.1. CLI Runner
-Run the evaluation runner from the `nexus-engine-sample` root:
+Run the evaluation runner from the `nexus-sample` root:
 
 ```bash
 # Run the entire evaluation suite (all 4 dimensions) in mock mode
@@ -141,7 +141,7 @@ python -m backend.evals.runner --suite all --mode live
 ```
 
 ### 5.2. Automated Pytest CI Regression
-Inside `nexus-engine-sample`, run the automated regression test suite:
+Inside `nexus-sample`, run the automated regression test suite:
 
 ```bash
 pytest backend/tests/test_eval_suite.py -v

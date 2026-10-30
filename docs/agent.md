@@ -174,7 +174,7 @@ data: { ...full AgentRunResponse payload... }
 | `done` | The full `AgentRunResponse`; its `answer` is authoritative. |
 | `error` | `{"detail": "..."}` when the run raised. |
 
-In full-stack integrations (such as the `nexus-engine-sample` frontend UI), client components subscribe to these events to render the collapsible reasoning trace dynamically as each step completes.
+In full-stack integrations (such as the `nexus-sample` frontend UI), client components subscribe to these events to render the collapsible reasoning trace dynamically as each step completes.
 
 ---
 
